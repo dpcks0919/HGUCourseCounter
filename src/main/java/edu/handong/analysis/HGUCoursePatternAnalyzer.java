@@ -1,14 +1,19 @@
 package edu.handong.analysis;
 
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 import edu.handong.analysis.datamodel.Course;
 import edu.handong.analysis.datamodel.Student;
-import edu.handong.analysise.utils.NotEnoughArgumentException;
-import edu.handong.analysise.utils.Utils;
+import edu.handong.analysis.utils.NotEnoughArgumentException;
+import edu.handong.analysis.utils.Utils;
 
 public class HGUCoursePatternAnalyzer {
 
@@ -18,6 +23,7 @@ public class HGUCoursePatternAnalyzer {
 	 * This method runs our analysis logic to save the number courses taken by each student per semester in a result file.
 	 * Run method must not be changed!!
 	 * @param args
+	 * @throws IOException 
 	 */
 	public void run(String[] args) {
 		
@@ -54,16 +60,45 @@ public class HGUCoursePatternAnalyzer {
 	 */
 	private HashMap<String,Student> loadStudentCourseRecords(ArrayList<String> lines) {
 		
-		// TODO: Implement this method
+		ArrayList<Course> courseList = new ArrayList<Course>() ;
+		ArrayList<Student> studentList = new ArrayList<Student>();
+		ArrayList<String> resultLines = new ArrayList<String>();
+		students = new HashMap<String,Student>();
+
+		for(int i=0; i < lines.size(); i++) {
+			courseList.add ( new Course(lines.get(i)) ); 
+		} //lines의 모든 라인을 CourseList에 Course 객체화 시켜서 넣는다.
 		
-		return null; // do not forget to return a proper variable.
+		
+		
+		for(int i=0,j=-1; i < lines.size(); i++) {
+			if( !resultLines.contains(courseList.get(i).getStudentId()) ) {
+				j++;
+				resultLines.add(courseList.get(i).getStudentId());
+				studentList.add( new Student(courseList.get(i).getStudentId()) );
+				//System.out.println(j); 
+			} 
+			//System.out.println(studentList.get(j).getStudentId());
+
+			//System.out.println(studentList.get(j)+" "+courseList.get(i).getCourseName() );
+			studentList.get(j).addCourse(courseList.get(i));
+			
+		} // student 학번만 중복안되게 resultLines에 넣어둠
+		
+		
+
+		for(int i=0; i<resultLines.size(); i++) {
+			students.put(resultLines.get(i),studentList.get(i));
+		}
+		
+		return students;
 	}
 
 	/**
 	 * This method generate the number of courses taken by a student in each semester. The result file look like this:
 	 * StudentID, TotalNumberOfSemestersRegistered, Semester, NumCoursesTakenInTheSemester
 	 * 0001,14,1,9
-     * 0001,14,2,8
+     * 0001,14,2,8if
 	 * ....
 	 * 
 	 * 0001,14,1,9 => this means, 0001 student registered 14 semeters in total. In the first semeter (1), the student took 9 courses.
@@ -74,8 +109,21 @@ public class HGUCoursePatternAnalyzer {
 	 */
 	private ArrayList<String> countNumberOfCoursesTakenInEachSemester(Map<String, Student> sortedStudents) {
 		
-		// TODO: Implement this method
+		ArrayList<String> line = new ArrayList<String>();
+		line.add("StudentID, TotalNumberOfSemestersRegistered, Semester, NumCoursesTakenInTheSemester\r\n");
 		
-		return null; // do not forget to return a proper variable.
-	}
+		//String s = "0001";
+		//System.out.println(sortedStudents.get(s) );
+		for(String key:sortedStudents.keySet()) {
+			for(int j=0, l=1; j < sortedStudents.get(key).getSemestersByYearAndSemester().size(); j++ ,l++ ) {
+				//line.add(key+","+sortedStudents.get(key).getSemestersByYearAndSemester().size()+","+","+ sortedStudents.get(key).getNumCourseInNthSementer(j+1) );
+				line.add(key+","+sortedStudents.get(key).getSemestersByYearAndSemester().size()+","+
+						l+","+sortedStudents.get(key).getNumCourseInNthSementer(j) +"\r\n");
+				
+			}
+		} 
+		
+		//edu.handong.analysis.datamodel.Student@77468bd9 학생 1번
+		return line;
+	}  
 }
