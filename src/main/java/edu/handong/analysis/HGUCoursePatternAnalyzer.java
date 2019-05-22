@@ -67,7 +67,7 @@ public class HGUCoursePatternAnalyzer {
 
 		for(int i=0; i < lines.size(); i++) {
 			courseList.add ( new Course(lines.get(i)) ); 
-		} //lines의 모든 라인을 CourseList에 Course 객체화 시켜서 넣는다.
+		} 
 		
 		
 		
@@ -76,14 +76,11 @@ public class HGUCoursePatternAnalyzer {
 				j++;
 				resultLines.add(courseList.get(i).getStudentId());
 				studentList.add( new Student(courseList.get(i).getStudentId()) );
-				//System.out.println(j); 
 			} 
-			//System.out.println(studentList.get(j).getStudentId());
 
-			//System.out.println(studentList.get(j)+" "+courseList.get(i).getCourseName() );
 			studentList.get(j).addCourse(courseList.get(i));
 			
-		} // student 학번만 중복안되게 resultLines에 넣어둠
+		}
 		
 		
 
@@ -112,18 +109,16 @@ public class HGUCoursePatternAnalyzer {
 		ArrayList<String> line = new ArrayList<String>();
 		line.add("StudentID, TotalNumberOfSemestersRegistered, Semester, NumCoursesTakenInTheSemester\r\n");
 		
-		//String s = "0001";
-		//System.out.println(sortedStudents.get(s) );
+
 		for(String key:sortedStudents.keySet()) {
 			for(int j=0, l=1; j < sortedStudents.get(key).getSemestersByYearAndSemester().size(); j++ ,l++ ) {
-				//line.add(key+","+sortedStudents.get(key).getSemestersByYearAndSemester().size()+","+","+ sortedStudents.get(key).getNumCourseInNthSementer(j+1) );
 				line.add(key+","+sortedStudents.get(key).getSemestersByYearAndSemester().size()+","+
 						l+","+sortedStudents.get(key).getNumCourseInNthSementer(j) +"\r\n");
 				
 			}
 		} 
 		
-		//edu.handong.analysis.datamodel.Student@77468bd9 학생 1번
+
 		return line;
 	}  
 }

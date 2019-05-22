@@ -52,7 +52,6 @@ public class Student {
 		
 		for(int i=0; i < yearAndSemester.size(); i++) {
 			semestersByYearAndSemester.put(yearAndSemester.get(i), i );
-		//	System.out.println(yearAndSemester.get(i)+" "+i);
 		}
 				
 		return yearAndSemester;
@@ -63,10 +62,8 @@ public class Student {
 		int count= 0;
 		
 		for(String key:semestersByYearAndSemester.keySet()) {
-		//	System.out.println(key);
 			if(semestersByYearAndSemester.get(key) == semester ) {
 				line = key;
-				//System.out.println(line);
 			}
 		}
 		String[] array = line.split("-");

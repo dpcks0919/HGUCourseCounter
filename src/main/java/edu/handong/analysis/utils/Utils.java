@@ -20,18 +20,11 @@ public class Utils {
 			if(removeHeader) {
 				br.readLine();
 			}	
-			//int a =0;
 			String line = null;
 			while( (line = br.readLine()) != null) {
 			name.add(line);
 			}
-		/*	
-			for(int i=0; i<name.size() ; i++) {
-				a++;
-				System.out.println(a);
-				System.out.println(name.get(i));
-			}
-			*/
+
 		}catch(IOException e ) {
 			System.out.println("The file path does not exist. Please check your CLI argument!");
 			System.exit(0);
