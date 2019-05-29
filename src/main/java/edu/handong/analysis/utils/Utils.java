@@ -52,8 +52,20 @@ public class Utils {
 			try {
 				Reader in = new FileReader(file);
 				CSVParser csvParser = CSVFormat.EXCEL.parse(in);
+				boolean firstLine = true;
+				
 
 				for (CSVRecord record : csvParser) {
+					
+					if(firstLine == true) {
+						String line = record.get(0);
+						for (int i = 1; i < 9; i++) {
+							line += "," + " " + record.get(i);
+						}
+						name.add(line);
+						firstLine = false;
+					}
+					
 					if (Integer.parseInt(record.get(7).trim()) >= startYear
 							&& Integer.parseInt(record.get(7).trim()) <= endYear) {
 						String line = record.get(0);

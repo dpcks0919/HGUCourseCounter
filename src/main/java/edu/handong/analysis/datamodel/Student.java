@@ -125,7 +125,7 @@ public class Student {
 				float dividefloat = (float) countStudent / studentname.size() * 100;
 				String divide = String.format("%.1f", dividefloat);
 				line.add(startYear + "," + i + "," + courseCode + "," + courseName + "," + studentname.size() + ","
-						+ countStudent + "," + divide + "\r\n");
+						+ countStudent + "," + divide+"%" + "\r\n");
 			}
 
 		}
