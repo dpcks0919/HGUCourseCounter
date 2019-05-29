@@ -14,140 +14,115 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
-
-
-
-
-
-
-
 public class Utils {
-	
-	
 
-	public static ArrayList<String> getLines(String file, boolean removeHeader,int startYear,int endYear) {
-	/*	ArrayList<String> name = null;
-		BufferedReader br =null;
-		try {
-			name = new ArrayList<>();
-			br = new BufferedReader (new FileReader(file));
-
-			if(removeHeader) {
-				br.readLine();
-			}	
-			String line = null;
-			while( (line = br.readLine()) != null) {
-			name.add(line);
-			}
-
-		}catch(IOException e ) {
-			System.out.println("The file path does not exist. Please check your CLI argument!");
-			System.exit(0);
-		}
-		return name; */
+	public static ArrayList<String> getLines(String file, boolean removeHeader, int startYear, int endYear) {
 		
-		
+		/*
+		 * ArrayList<String> name = null; BufferedReader br =null; try { name = new
+		 * ArrayList<>(); br = new BufferedReader (new FileReader(file));
+		 * if(removeHeader) { br.readLine(); } String line = null; while( (line =
+		 * br.readLine()) != null) { name.add(line); } }catch(IOException e ) {
+		 * System.out.
+		 * println("The file path does not exist. Please check your CLI argument!");
+		 * System.exit(0); } return name;
+		 */
+
 		ArrayList<String> name = new ArrayList<String>();
-		
-		if(removeHeader) {
+
+		if (removeHeader) {
+			
+			  
+			  try { Reader in = new FileReader(file); CSVParser csvParser =
+			  CSVFormat.EXCEL.withFirstRecordAsHeader().parse(in);
+			  
+			  for (CSVRecord record : csvParser) { if
+			  (Integer.parseInt(record.get(7).trim()) >= startYear &&
+			  Integer.parseInt(record.get(7).trim()) <= endYear) { String line =
+			  record.get(0); for (int i = 1; i < 9; i++) { line += "," + " " +
+			  record.get(i); } name.add(line);
+			  
+			  }
+			  
+			  } } catch (IOException e) { System.out.
+			  println("The file path does not exist. Please check your CLI argument!");
+			  System.exit(0); }
+			  
+			 } else {
 			try {
 				Reader in = new FileReader(file);
-				CSVParser csvParser = CSVFormat.EXCEL.withFirstRecordAsHeader().parse(in);
+				CSVParser csvParser = CSVFormat.EXCEL.parse(in);
 
-				for(CSVRecord record: csvParser) {
-					
-					if(  Integer.parseInt(record.get(7))>= startYear  && Integer.parseInt(record.get(7)) <= endYear ) {
-					String line = record.get(0);
-					for(int i=1 ; i<9; i++) {
-						line += ","+" "+record.get(i);
+				for (CSVRecord record : csvParser) {
+					if (Integer.parseInt(record.get(7).trim()) >= startYear
+							&& Integer.parseInt(record.get(7).trim()) <= endYear) {
+						String line = record.get(0);
+						for (int i = 1; i < 9; i++) {
+							line += "," + " " + record.get(i);
+						}
+						name.add(line);
 					}
-					name.add(line);
-					}
-					
 				}
 			} catch (IOException e) {
 				System.out.println("The file path does not exist. Please check your CLI argument!");
 				System.exit(0);
 			}
 		}
-		else {
-			try {
-				Reader in = new FileReader(file);
-				CSVParser csvParser = CSVFormat.EXCEL.parse(in);
-				for(CSVRecord record: csvParser) {
-					String line = record.get(0);
-					for(int i=1 ; i<9; i++) {
-						line += ","+" "+record.get(i);
-					}
-				//	System.out.println(line);
-					name.add(line);
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		
-		return name; 
-	
+		return name;
 	}
-	
-	public static void writeAFile(ArrayList<String> lines, String targetFileName)  {
-	
+
+	public static void writeAFile(ArrayList<String> lines, String targetFileName) {
+
 		try {
 			File realFile = null;
-			
-				if(targetFileName.charAt(0) == 'C'    ) {
-				String[] array = targetFileName.split("\\\\");	
+
+			if (targetFileName.charAt(0) == 'C') {
+				String[] array = targetFileName.split("\\\\");
 				String name = array[0];
-				for(int i=1; i < array.length-1; i ++) {
-					name +="\\\\"+ array[i];
+				for (int i = 1; i < array.length - 1; i++) {
+					name += "\\\\" + array[i];
 				}
-				
-				
+
 				File file = new File(name);
-				
-				if(!file.exists()) {
+
+				if (!file.exists()) {
 					file.getParentFile().mkdirs();
 					file.mkdirs();
-					} 
+				}
 				realFile = new File(targetFileName);
-				} 
-				
-				if(targetFileName.charAt(1) == '/') {
-					String[] array = targetFileName.split("/");	
-					String name = "C:\\\\Users\\\\dpcks\\\\git\\\\HGUCourseCounter";
-					for(int i=1; i < array.length-1; i ++) {
-						name +="\\\\"+ array[i];
-					}
-						
-					File file = new File(name);
-					
-					if(!file.exists()) {
-						file.getParentFile().mkdirs();
-						file.mkdirs();
-						} 
-			
-					realFile = new File(name+"\\\\"+array[array.length-1]);
-					
-				}
-				else {
-					realFile = new File(targetFileName);
-				}
-				
-			
-				FileWriter fw = new FileWriter(realFile);
+			}
 
-				for(int i=0 ;i < lines.size(); i++) {
-					fw.write(lines.get(i));
+			if (targetFileName.charAt(1) == '/') {
+				String[] array = targetFileName.split("/");
+				String name = "C:\\\\Users\\\\dpcks\\\\git\\\\HGUCourseCounter";
+				for (int i = 1; i < array.length - 1; i++) {
+					name += "\\\\" + array[i];
 				}
-				fw.flush();
-				fw.close();  
-			} catch (IOException e) {
-				e.printStackTrace();
-			} 
-	
+
+				File file = new File(name);
+
+				if (!file.exists()) {
+					file.getParentFile().mkdirs();
+					file.mkdirs();
+				}
+
+				realFile = new File(name + "\\\\" + array[array.length - 1]);
+
+			} else {
+				realFile = new File(targetFileName);
+			}
+
+			FileWriter fw = new FileWriter(realFile);
+
+			for (int i = 0; i < lines.size(); i++) {
+				fw.write(lines.get(i));
+			}
+			fw.flush();
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

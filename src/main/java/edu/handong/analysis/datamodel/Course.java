@@ -1,7 +1,5 @@
 package edu.handong.analysis.datamodel;
 
-
-
 public class Course {
 	private String studentId;
 	private String yearMonthGraduated;
@@ -12,7 +10,7 @@ public class Course {
 	private String courseCredit;
 	private int yearTaken;
 	private int semesterCourseTaken;
-	
+
 	public Course(String line) {
 		studentId = line.split(",")[0].trim();
 		yearMonthGraduated = line.split(",")[1].trim();
@@ -21,31 +19,28 @@ public class Course {
 		courseCode = line.split(",")[4].trim();
 		courseName = line.split(",")[5].trim();
 		courseCredit = line.split(",")[6].trim();
-		yearTaken = Integer.parseInt( line.split(",")[7].trim());
+		yearTaken = Integer.parseInt(line.split(",")[7].trim());
 		semesterCourseTaken = Integer.parseInt(line.split(",")[8].trim());
 	}
-	
+
 	public String getcourseCode() {
 		return courseCode;
 	}
-	
+
 	public String getStudentId() {
 		return studentId;
 	}
-	
+
 	public String getCourseName() {
 		return courseName;
 	}
-	
+
 	public int getYearTaken() {
 		return yearTaken;
 	}
-	
+
 	public int getSemesterCourseTaken() {
 		return semesterCourseTaken;
 	}
 
-
 }
-
-
