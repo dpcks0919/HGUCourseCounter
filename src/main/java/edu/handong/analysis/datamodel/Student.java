@@ -2,6 +2,7 @@ package edu.handong.analysis.datamodel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 
 public class Student {
@@ -21,6 +22,10 @@ public class Student {
 	
 	public String getStudentId() {
 		return studentId;
+	}
+	
+	public ArrayList<Course> getCoursesTaken(){
+		return coursesTaken;
 	}
 	
 	public ArrayList<String> getSemestersByYearAndSemester(){
@@ -76,6 +81,28 @@ public class Student {
 		
 		return count;
 	}
+/*	
+	public ArrayList<String> countPerCourseNameAndYear(Map<String, Student> sortedStudents,String courseCode){
+		
+		ArrayList<String> line = new ArrayList<String>();
+		
+		for(String key:sortedStudents.keySet()) {
+			for(int i=0 ; i <sortedStudents.get(key).getCoursesTaken().size(); i++ ) {
+				if( sortedStudents.get(key).getCoursesTaken().get(i).getcourseCode().equals(courseCode) ) {
+					line.add(sortedStudents.get(key).getCoursesTaken().get(i).getYearTaken()+","+" "+
+							sortedStudents.get(key).getCoursesTaken().get(i).getcourseCode()+","+" "+
+							sortedStudents.get(key).getCoursesTaken().get(i).getCourseName()+","+" "+
+							sortedStudents.get(key).getCoursesTaken().get(i).getYearTaken()+","+" "+
+							sortedStudents.get(key).getCoursesTaken().get(i).getYearTaken()+","+" "		
+				);
+				}
+			
+			}
+		}
+		
+		
+		
+	}*/
 	
 
 }

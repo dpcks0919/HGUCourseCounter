@@ -2,16 +2,31 @@ package edu.handong.analysis.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+
+
+
+
+
+
+
 
 public class Utils {
 	
 	
-	public static ArrayList<String> getLines(String file, boolean removeHeader) {
-		ArrayList<String> name = null;
+
+	public static ArrayList<String> getLines(String file, boolean removeHeader,int startYear,int endYear) {
+	/*	ArrayList<String> name = null;
 		BufferedReader br =null;
 		try {
 			name = new ArrayList<>();
@@ -29,7 +44,53 @@ public class Utils {
 			System.out.println("The file path does not exist. Please check your CLI argument!");
 			System.exit(0);
 		}
-		return name;
+		return name; */
+		
+		
+		ArrayList<String> name = new ArrayList<String>();
+		
+		if(removeHeader) {
+			try {
+				Reader in = new FileReader(file);
+				CSVParser csvParser = CSVFormat.EXCEL.withFirstRecordAsHeader().parse(in);
+
+				for(CSVRecord record: csvParser) {
+					
+					if(  Integer.parseInt(record.get(7))>= startYear  && Integer.parseInt(record.get(7)) <= endYear ) {
+					String line = record.get(0);
+					for(int i=1 ; i<9; i++) {
+						line += ","+" "+record.get(i);
+					}
+					name.add(line);
+					}
+					
+				}
+			} catch (IOException e) {
+				System.out.println("The file path does not exist. Please check your CLI argument!");
+				System.exit(0);
+			}
+		}
+		else {
+			try {
+				Reader in = new FileReader(file);
+				CSVParser csvParser = CSVFormat.EXCEL.parse(in);
+				for(CSVRecord record: csvParser) {
+					String line = record.get(0);
+					for(int i=1 ; i<9; i++) {
+						line += ","+" "+record.get(i);
+					}
+				//	System.out.println(line);
+					name.add(line);
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return name; 
+	
 	}
 	
 	public static void writeAFile(ArrayList<String> lines, String targetFileName)  {

@@ -25,6 +25,10 @@ public class Course {
 		semesterCourseTaken = Integer.parseInt(line.split(",")[8].trim());
 	}
 	
+	public String getcourseCode() {
+		return courseCode;
+	}
+	
 	public String getStudentId() {
 		return studentId;
 	}
